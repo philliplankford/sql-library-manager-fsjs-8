@@ -1,7 +1,26 @@
 doctype html
+
 html
   head
-    title= title
+    title= Books
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    h1 Books 
+    p 
+      a.button(href="new_book.html") Create New Book
+    table 
+      thead 
+        tr 
+          th Title 
+          th Author 
+          th Genre 
+          th Year 
+      tbody 
+        //- Each Book
+        tr 
+          td
+            a(href="book_detail.html") The Hunger Games 
+          td Author 
+          td Genre 
+          td Year 
+
