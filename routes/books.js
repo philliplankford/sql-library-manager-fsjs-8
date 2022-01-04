@@ -21,28 +21,42 @@ router.get('/', asyncHandler( async (req, res) => {
   res.render('layout', { books });
 }));
 
+// GET new book
 router.get('/new', (req, res) => {
     res.render('new-book');
 });
 
+// POST new book
 router.post('/new', asyncHandler( async (req, res) => {
-    const book = await Book.create(req.body); // req has the key value pairs from the formprops that map to attributes
-    res.redirect('/books/' + book.id);
+    let book;
+    try {
+        book = await Book.create(req.body); // req has the key value pairs from the formprops that map to attributes
+        res.redirect('/books'); 
+    } catch (error) {
+        if (error.name === 'SequelizeValidationError'){
+            book = await Book.build(req.body);
+            res.render('new-book', { book, errors: error.errors });
+        } else {
+            throw error; // error caugh in asyncHandler's catch block
+        }
+    }
+
 }));
 
+// GET update book
 router.get('/:id', asyncHandler ( async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     res.render('update-book', { book });
 }));
 
-// update
+// POST update book
 router.post('/:id', asyncHandler ( async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     await book.update(req.body);
     res.redirect('/books/' + book.id);
 }));
 
-// delete
+// delete book
 router.post('/:id/delete', (req, res) => {});
 
 
