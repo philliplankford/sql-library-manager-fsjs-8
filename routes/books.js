@@ -21,4 +21,18 @@ router.get('/', asyncHandler( async (req, res, next) => {
   res.render('layout');
 }));
 
+router.get('/new', (req, res, next) => {
+    res.render('new-book');
+});
+
+router.post('/new', (req, res, next) => {});
+
+router.get('/:id', (req, res, next) => {});
+
+router.post('/:id', (req, res, next) => {});
+
+router.post('/:id/delete', (req, res, next) => {});
+
+
+
 module.exports = router;
