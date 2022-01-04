@@ -18,7 +18,8 @@ html
       tbody 
         each book in books
           tr 
-            th= book.title
+            th 
+              a(href=`/books/${book.id}`)= book.title
             th= book.author 
             th= book.genre 
             th= book.year 
