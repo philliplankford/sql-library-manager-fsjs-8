@@ -2,7 +2,7 @@ doctype html
 
 html
   head
-    title= Books
+    title Books
     link(rel='stylesheet', href="../static/stylesheets/style.css")
   body
     h1 Books 
@@ -16,11 +16,9 @@ html
           th Genre 
           th Year 
       tbody 
-        //- Each Book
-        tr 
-          td
-            a(href="book_detail.html") The Hunger Games 
-          td Author 
-          td Genre 
-          td Year 
-
+        each book in books
+          tr 
+            th= book.title
+            th= book.author 
+            th= book.genre 
+            th= book.year 

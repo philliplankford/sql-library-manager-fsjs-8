@@ -16,16 +16,20 @@ function asyncHandler(cb){
 }
 
 /* GET home page. */
-router.get('/', asyncHandler( async (req, res, next) => {
+router.get('/', asyncHandler( async (req, res) => {
   const books = await Book.findAll();
-  res.render('layout');
+  console.log(books);
+  res.render('layout', { books });
 }));
 
-router.get('/new', (req, res, next) => {
+router.get('/new', (req, res) => {
     res.render('new-book');
 });
 
-router.post('/new', (req, res, next) => {});
+router.post('/new', asyncHandler( async (req, res) => {
+    const article = await Book.create(req.body); // req has the key value pairs from the formprops that map to attributes
+    res.redirect('/books/' + article.id);
+}));
 
 router.get('/:id', (req, res, next) => {});
 
