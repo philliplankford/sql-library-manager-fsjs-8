@@ -3,13 +3,14 @@ doctype html
 html(lang="en" dir="ltr")
   head 
     title Page Not Found 
-    link(rel="stylesheet" href="../stylesheets/style.css")
+    link(rel="stylesheet" href="../static/stylesheets/style.css")
 
   body 
-    h1 Server Error 
-    p Sorry! There was an unexpected error on the server.
+    h1 Server Error
+    p= `${err.message}`
 
-
+//- `Server Error ${err.status}`
+//- `${err.message}`
 //- block content
 //-   h1= message
 //-   h2= error.status

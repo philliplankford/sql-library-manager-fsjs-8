@@ -5,8 +5,8 @@ html
         title Page Not Found 
         link(rel="stylesheet" href="../static/stylesheets/style.css")
     body 
-        h1 Page Not Found 
-        p Sorry! We couldn't find the page you were looking for.
+        h1 Page Not Found
+        p= `${error.message}`
         br
         p 
             a.button(href="all_books.html") Home 
