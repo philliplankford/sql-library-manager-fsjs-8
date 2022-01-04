@@ -44,9 +44,17 @@ router.post('/new', asyncHandler( async (req, res) => {
 }));
 
 // GET update book
-router.get('/:id', asyncHandler ( async (req, res) => {
+router.get('/:id', asyncHandler ( async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
-    res.render('update-book', { book });
+    if (book) {
+        res.render('update-book', { book });
+    } else {
+        // res.sendStatus(404);
+        const err = new Error(); 
+        err.status = 404; 
+        err.message = "The book you're looking for does not exist!";
+        next(err);
+    }
 }));
 
 // POST update book

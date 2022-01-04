@@ -53,13 +53,18 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  err.status = err.status || 500;
-  err.message = err.message || "Sorry! There was an unexpected error on the server.";
-  
-  console.log(err.status);
-  console.log(err.message);
+  if (err.status = 404) {
+    const error = err;
+    res.render("page-not-found", { error });
+  } else {
+    err.status = err.status || 500;
+    err.message = err.message || "Sorry! There was an unexpected error on the server.";
+    
+    console.log(err.status);
+    console.log(err.message);
 
-  res.render("error", { err });
+    res.render("error", { err });
+  }
 });
 
 module.exports = app;
