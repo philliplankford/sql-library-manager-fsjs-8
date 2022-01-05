@@ -99,3 +99,13 @@ input[type=text] {
 .error {
   color: rgb(236, 15, 15);
 }
+
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid black; */
+}
+
+#searchbutton {
+  margin: 0;
+}

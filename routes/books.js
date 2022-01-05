@@ -40,7 +40,7 @@ router.post('/new', asyncHandler( async (req, res) => {
     let book;
     try {
         book = await Book.create(req.body); // req has the key value pairs from the formprops that map to attributes
-        res.redirect('/books/' + book.id); 
+        res.redirect('/books'); // res.redirect('/books/' + book.id); 
     } catch (error) {
         if (error.name === 'SequelizeValidationError'){
             book = await Book.build(req.body);
