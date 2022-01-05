@@ -20,21 +20,31 @@ function asyncHandler(cb){
 router.get('/', asyncHandler( async (req, res) => {
     // when a page is clicked in the view it will go to this route and rerender based on the query string
     const maxAmount = 5;
-    const currentPage = req.query.page ? req.query.page : 0;
+    let currentPage = req.query.page ? req.query.page : 0;
+    currentPage = parseInt(currentPage); // parse string to int
     const offset = currentPage * maxAmount;
+
+    
     const { count, rows } = await Book.findAndCountAll({
         order: [['createdAt', 'DESC']],
         offset: offset,
         limit: maxAmount
     });
+
+    // pagination 
     const allPages = Math.ceil( count / maxAmount );
-    res.render('layout', { books: rows, allPages });
+    const prevPage = currentPage > 0 ? currentPage - 1 : 0;
+    const nextPage = currentPage < allPages - 1 ? currentPage + 1 : allPages - 1;
+
+    // render
+    res.render('layout', { books: rows, allPages, currentPage, prevPage, nextPage });
 }));
 
 // GET searched book 
 router.get('/search', asyncHandler( async (req, res) => {
     const maxAmount = 5;
-    const currentPage = req.query.page ? req.query.page : 0;
+    let currentPage = req.query.page ? req.query.page : 0;
+    currentPage = parseInt(currentPage); // parse string to int
     const offset = currentPage * maxAmount;
 
     const searchQuery = req.query.search;
@@ -54,7 +64,10 @@ router.get('/search', asyncHandler( async (req, res) => {
         limit: maxAmount
     });
     const allPages = Math.ceil( count / maxAmount );
-    res.render('layout', { books: rows, allPages, searchQuery });
+    const prevPage = currentPage > 0 ? currentPage - 1 : 0;
+    const nextPage = currentPage < allPages - 1 ? currentPage + 1 : allPages - 1;
+
+    res.render('layout', { books: rows, allPages, searchQuery, prevPage, nextPage });
 }));
 
 // GET new book

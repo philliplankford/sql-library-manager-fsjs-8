@@ -109,3 +109,15 @@ input[type=text] {
 #searchbutton {
   margin: 0;
 }
+
+.pagination {
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.currentpage {
+  color: yellow;
+}
