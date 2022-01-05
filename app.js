@@ -6,7 +6,6 @@ const logger = require('morgan');
 
 // routes 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const booksRouter = require('./routes/books');
 
 // require
@@ -18,15 +17,17 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// other defaults w/ setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 // serve static files
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+// use routers
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/books', booksRouter);
 
 (async () => {
