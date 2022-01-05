@@ -21,7 +21,7 @@ router.get('/', asyncHandler( async (req, res) => {
     // when a page is clicked in the view it will go to this route and rerender based on the query string
     const maxAmount = 5;
     let currentPage = req.query.page ? req.query.page : 0;
-    currentPage = parseInt(currentPage); // parse string to int
+    currentPage = parseInt(currentPage); // parse query string to int
     const offset = currentPage * maxAmount;
 
     const searchQuery = req.query.search ? req.query.search : "";
@@ -30,7 +30,7 @@ router.get('/', asyncHandler( async (req, res) => {
         order: [['createdAt', 'DESC']],
         where: {
             [Op.or]: [ // match any of these
-                {title: {[Op.like]: `%${searchQuery}%`}}, // like is similar to simply "contains"
+                {title: {[Op.like]: `%${searchQuery}%`}}, // Op gives access to specific operators to search with
                 {author: {[Op.like]: `%${searchQuery}%`}}, // %% allows anything to be before or after the search term
                 {genre: {[Op.like]: `%${searchQuery}%`}},
                 {year: {[Op.like]: `%${searchQuery}%`}}

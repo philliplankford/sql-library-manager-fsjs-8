@@ -29,13 +29,15 @@ html
           input(type='search' id="search" name="search" placeholder='Book Search...')
           input#searchbutton(type='submit' value="search")
       if searchQuery
-        .pagination
+        //- pages with a search query
+        .pagination 
           a.button(href=`/books?search=${searchQuery}&page=${prevPage}`) &#60;
           - for (let i = 0; i < allPages; i++)
             a.pagenum(href=`books?search=${searchQuery}&page=${i}`)= `${i}`
           a.button(href=`/books?search=${searchQuery}&page=${nextPage}`) &#62;
         h4= `${count} results for "${searchQuery}":`
       else 
+        //- pages without a search query
         .pagination
           a.button(href=`/books?page=${prevPage}`) &#60;
           - for (let i = 0; i < allPages; i++)
