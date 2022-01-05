@@ -25,7 +25,7 @@ html
             th= book.year
       .searchbar
         form(action='/books/search', method='get')
-          input(type='search' placeholder='Book Search...')
+          input(type='search' id="search" name="search" placeholder='Book Search...')
           input#searchbutton(type='submit' value="search")
       p
         - for (let i = 0; i < allPages; i++)

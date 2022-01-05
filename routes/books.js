@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Book = require("../models").Book;
+const { Op } = require("sequelize");
 
 /* Handler function to wrap each route. */
 function asyncHandler(cb){
@@ -23,6 +24,32 @@ router.get('/', asyncHandler( async (req, res) => {
     const offset = currentPage * maxAmount;
     const { count, rows } = await Book.findAndCountAll({
         order: [['createdAt', 'DESC']],
+        offset: offset,
+        limit: 15
+    });
+    const allPages = Math.ceil( count / maxAmount );
+    res.render('layout', { books: rows, allPages });
+}));
+
+// GET searched book 
+router.get('/search', asyncHandler( async (req, res) => {
+    const maxAmount = 15;
+    const currentPage = req.query.page ? req.query.page : 0;
+    const offset = currentPage * maxAmount;
+
+    const searchQuery = req.query.search;// ? req.query.search : '';
+
+    const { count, rows } = await Book.findAndCountAll({
+        order: [['createdAt', 'DESC']],
+        // https://sequelize.org/master/manual/model-querying-basics.html
+        where: {
+            [Op.or]: [
+                {title: {[Op.like]: `%${searchQuery}%`}},
+                {author: {[Op.like]: `%${searchQuery}%`}},
+                {genre: {[Op.like]: `%${searchQuery}%`}},
+                {year: {[Op.like]: `%${searchQuery}%`}}
+            ]
+        },
         offset: offset,
         limit: 15
     });
