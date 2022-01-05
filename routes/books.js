@@ -37,7 +37,7 @@ router.get('/search', asyncHandler( async (req, res) => {
     const currentPage = req.query.page ? req.query.page : 0;
     const offset = currentPage * maxAmount;
 
-    const searchQuery = req.query.search;// ? req.query.search : '';
+    const searchQuery = req.query.search;
 
     const { count, rows } = await Book.findAndCountAll({
         order: [['createdAt', 'DESC']],
@@ -99,7 +99,7 @@ router.post('/:id', asyncHandler ( async (req, res) => {
         book = await Book.findByPk(req.params.id);
         if (book) {
             await book.update(req.body);
-            res.redirect('/books/' + book.id);
+            res.redirect('/books');
         }
     } catch (error) {
         if (error.name === 'SequelizeValidationError') {
