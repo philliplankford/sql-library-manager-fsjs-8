@@ -19,7 +19,7 @@ function asyncHandler(cb){
 router.get('/', asyncHandler( async (req, res, next) => {
   // res.render('index', { title: 'Express' });
   // throw new Error(); default error handling test
-  const books = await Book.findAll();
+  // const books = await Book.findAll();
   res.redirect('books');
   // console.log(books);
   // res.render("index", )

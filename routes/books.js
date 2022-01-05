@@ -17,8 +17,17 @@ function asyncHandler(cb){
 
 /* GET home page. */
 router.get('/', asyncHandler( async (req, res) => {
-  const books = await Book.findAll();
-  res.render('layout', { books });
+    // when a page is clicked in the view it will go to this route and rerender based on the query string
+    const maxAmount = 15;
+    const currentPage = req.query.page ? req.query.page : 0;
+    const offset = currentPage * maxAmount;
+    const { count, rows } = await Book.findAndCountAll({
+        order: [['createdAt', 'DESC']],
+        offset: offset,
+        limit: 15
+    });
+    const allPages = Math.ceil( count / maxAmount );
+    res.render('layout', { books: rows, allPages });
 }));
 
 // GET new book
@@ -49,7 +58,6 @@ router.get('/:id', asyncHandler ( async (req, res, next) => {
     if (book) {
         res.render('update-book', { book });
     } else {
-        // res.sendStatus(404);
         const err = new Error(); 
         err.status = 404; 
         err.message = "The book you're looking for does not exist!";
@@ -75,7 +83,6 @@ router.post('/:id', asyncHandler ( async (req, res) => {
             throw error;
         }
     }
-    // res.redirect('/books/' + book.id);
 }));
 
 // delete book

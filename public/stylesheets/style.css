@@ -29,6 +29,10 @@ form a.button, input[type=submit] {
   transition: 0.4s;
 }
 
+a.pagenum {
+  margin-right: 1rem;
+}
+
 input[type=submit] {
   border: 0;
 }

@@ -22,4 +22,7 @@ html
               a(href=`/books/${book.id}`)= book.title
             th= book.author 
             th= book.genre 
-            th= book.year 
+            th= book.year
+      p
+        - for (let i = 0; i < allPages; i++)
+            a.pagenum(href=`/books?page=${i}`)= `${i}`
