@@ -34,7 +34,7 @@ html
           - for (let i = 0; i < allPages; i++)
             a.pagenum(href=`books?search=${searchQuery}&page=${i}`)= `${i}`
           a.button(href=`/books?search=${searchQuery}&page=${nextPage}`) &#62;
-        h4= `results for "${searchQuery}":`
+        h4= `${count} results for "${searchQuery}":`
       else 
         .pagination
           a.button(href=`/books?page=${prevPage}`) &#60;

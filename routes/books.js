@@ -46,7 +46,7 @@ router.get('/', asyncHandler( async (req, res) => {
     const nextPage = currentPage < allPages - 1 ? currentPage + 1 : allPages - 1;
 
     // render
-    res.render('layout', { books: rows, allPages, searchQuery, currentPage, prevPage, nextPage });
+    res.render('layout', { books: rows, count, allPages, searchQuery, currentPage, prevPage, nextPage });
 }));
 
 // GET new book
