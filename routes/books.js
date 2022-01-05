@@ -54,7 +54,7 @@ router.get('/search', asyncHandler( async (req, res) => {
         limit: 15
     });
     const allPages = Math.ceil( count / maxAmount );
-    res.render('layout', { books: rows, allPages });
+    res.render('layout', { books: rows, allPages, searchQuery });
 }));
 
 // GET new book

@@ -29,4 +29,7 @@ html
           input#searchbutton(type='submit' value="search")
       p
         - for (let i = 0; i < allPages; i++)
+          if searchQuery
+            a.pagenum(href=`/books/search?search=${searchQuery}&page=${i}`)= `${i}`
+          else 
             a.pagenum(href=`/books?page=${i}`)= `${i}`
