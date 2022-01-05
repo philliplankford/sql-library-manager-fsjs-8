@@ -5,7 +5,8 @@ html
     title Books
     link(rel='stylesheet', href="../static/stylesheets/style.css")
   body
-    h1 Books 
+    h1 
+      a(href=`/`) Books 
     p 
       a.button(href="/books/new") Create New Book
     table 
@@ -33,3 +34,5 @@ html
             a.pagenum(href=`/books/search?search=${searchQuery}&page=${i}`)= `${i}`
           else 
             a.pagenum(href=`/books?page=${i}`)= `${i}`
+      if searchQuery
+        h4= `results for "${searchQuery}":`

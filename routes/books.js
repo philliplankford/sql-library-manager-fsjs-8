@@ -19,13 +19,13 @@ function asyncHandler(cb){
 /* GET home page. */
 router.get('/', asyncHandler( async (req, res) => {
     // when a page is clicked in the view it will go to this route and rerender based on the query string
-    const maxAmount = 15;
+    const maxAmount = 5;
     const currentPage = req.query.page ? req.query.page : 0;
     const offset = currentPage * maxAmount;
     const { count, rows } = await Book.findAndCountAll({
         order: [['createdAt', 'DESC']],
         offset: offset,
-        limit: 15
+        limit: maxAmount
     });
     const allPages = Math.ceil( count / maxAmount );
     res.render('layout', { books: rows, allPages });
@@ -33,7 +33,7 @@ router.get('/', asyncHandler( async (req, res) => {
 
 // GET searched book 
 router.get('/search', asyncHandler( async (req, res) => {
-    const maxAmount = 15;
+    const maxAmount = 5;
     const currentPage = req.query.page ? req.query.page : 0;
     const offset = currentPage * maxAmount;
 
@@ -51,7 +51,7 @@ router.get('/search', asyncHandler( async (req, res) => {
             ]
         },
         offset: offset,
-        limit: 15
+        limit: maxAmount
     });
     const allPages = Math.ceil( count / maxAmount );
     res.render('layout', { books: rows, allPages, searchQuery });
