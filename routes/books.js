@@ -24,9 +24,18 @@ router.get('/', asyncHandler( async (req, res) => {
     currentPage = parseInt(currentPage); // parse string to int
     const offset = currentPage * maxAmount;
 
-    
+    const searchQuery = req.query.search ? req.query.search : "";
+
     const { count, rows } = await Book.findAndCountAll({
         order: [['createdAt', 'DESC']],
+        where: {
+            [Op.or]: [ // match any of these
+                {title: {[Op.like]: `%${searchQuery}%`}}, // like is similar to simply "contains"
+                {author: {[Op.like]: `%${searchQuery}%`}}, // %% allows anything to be before or after the search term
+                {genre: {[Op.like]: `%${searchQuery}%`}},
+                {year: {[Op.like]: `%${searchQuery}%`}}
+            ]
+        },
         offset: offset,
         limit: maxAmount
     });
@@ -37,37 +46,7 @@ router.get('/', asyncHandler( async (req, res) => {
     const nextPage = currentPage < allPages - 1 ? currentPage + 1 : allPages - 1;
 
     // render
-    res.render('layout', { books: rows, allPages, currentPage, prevPage, nextPage });
-}));
-
-// GET searched book 
-router.get('/search', asyncHandler( async (req, res) => {
-    const maxAmount = 5;
-    let currentPage = req.query.page ? req.query.page : 0;
-    currentPage = parseInt(currentPage); // parse string to int
-    const offset = currentPage * maxAmount;
-
-    const searchQuery = req.query.search;
-
-    const { count, rows } = await Book.findAndCountAll({
-        order: [['createdAt', 'DESC']],
-        // https://sequelize.org/master/manual/model-querying-basics.html
-        where: {
-            [Op.or]: [
-                {title: {[Op.like]: `%${searchQuery}%`}},
-                {author: {[Op.like]: `%${searchQuery}%`}},
-                {genre: {[Op.like]: `%${searchQuery}%`}},
-                {year: {[Op.like]: `%${searchQuery}%`}}
-            ]
-        },
-        offset: offset,
-        limit: maxAmount
-    });
-    const allPages = Math.ceil( count / maxAmount );
-    const prevPage = currentPage > 0 ? currentPage - 1 : 0;
-    const nextPage = currentPage < allPages - 1 ? currentPage + 1 : allPages - 1;
-
-    res.render('layout', { books: rows, allPages, searchQuery, prevPage, nextPage });
+    res.render('layout', { books: rows, allPages, searchQuery, currentPage, prevPage, nextPage });
 }));
 
 // GET new book

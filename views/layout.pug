@@ -25,17 +25,19 @@ html
             th= book.genre 
             th= book.year
       .searchbar
-        form(action='/books/search', method='get')
+        form(action='/books', method='get')
           input(type='search' id="search" name="search" placeholder='Book Search...')
           input#searchbutton(type='submit' value="search")
-      //- if searchquery
-      .pagination
-        a.button(href=`/books?page=${prevPage}`) &#60;
-        - for (let i = 0; i < allPages; i++)
-            if searchQuery
-              a.pagenum(href=`/books/search?search=${searchQuery}&page=${i}`)= `${i}`
-            else 
-              a.pagenum(href=`/books?page=${i}`)= `${i}`
-        a.button(href=`/books?page=${nextPage}`) &#62;
       if searchQuery
+        .pagination
+          a.button(href=`/books?search=${searchQuery}&page=${prevPage}`) &#60;
+          - for (let i = 0; i < allPages; i++)
+            a.pagenum(href=`books?search=${searchQuery}&page=${i}`)= `${i}`
+          a.button(href=`/books?search=${searchQuery}&page=${nextPage}`) &#62;
         h4= `results for "${searchQuery}":`
+      else 
+        .pagination
+          a.button(href=`/books?page=${prevPage}`) &#60;
+          - for (let i = 0; i < allPages; i++)
+            a.pagenum(href=`books?page=${i}`)= `${i}`
+          a.button(href=`/books?page=${nextPage}`) &#62;
